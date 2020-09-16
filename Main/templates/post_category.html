@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<main id="main">
+
+    <!--================Blog Area=================-->
+    <section class="blog_area section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2>{{ pk }}</h2>
+                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+                    consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia
+                    fugiat sit in iste officiis commodi quidem hic quas.</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="blog_left_sidebar">
+                        {% for post in posts %}
+                        <article class="blog_item">
+                            <div class="blog_item_img">
+                                <a href="{% url 'detail-post' post.id %}"><img class="card-img rounded-0"
+                                        src="{{ post.thumbnail.url }}" alt=""></a>
+                                <a href="{% url 'detail-post' post.id %}" class="blog_item_date">
+                                    <h3>15</h3>
+                                    <p>Jan</p>
+                                </a>
+                            </div>
+
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="{% url 'detail-post' post.id %}">
+                                    <h2>{{ post.title }}</h2>
+                                </a>
+                                <p>That dominion stars lights dominion divide years for fourth have don't stars is that
+                                    he earth it first without heaven in place seed it second morning saying.</p>
+                                <ul class="blog-info-link">
+                                    <li><a href="#"><i class="fa fa-user"></i>{{ post.category }}</a></li>
+                                    <li><a href="#"><i class="fa fa-likes"></i>{{ post.likes.count }} Likes</a></li>
+                                    <li><a href="#"><i class="fa fa-comments"></i>{{ post.comments.count }} Comments</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                        {% empty %}
+                        <h1>There are no posts from {{pk}} category!!!</h1>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <!-- <aside class="single_sidebar_widget search_widget php-email-form">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                    type="submit">Search</button>
+                            </form>
+                        </aside> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Blog Area =================-->
+
+
+
+
+    </div>
+    </section>
+</main><!-- End #main -->
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Courses</h2>
+      <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+    </div>
+
+    <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+      {% for c in cats %}
+      <a href="{% url 'category' c c.id %}"><li class="filter-active">{{ c }}</li></a>
+      {% endfor %}
+    </ul>
+    <div class="row">
+      <div class="col-xl-12">
+      </div>
+    </div>
+    <!-- popular_courses_start -->
+    <div class="popular_courses plus_padding">
+      <div class="container">
+        <div class="all_courses">
+          <div class="container">
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row">
+
+                  {% for course in object_list %}
+                  <div class="col-xl-4 col-lg-4 col-md-6 filter-app">
+                    <div class="single_courses filter-card">
+                      <div class="thumb">
+                        <a href="{{ course.get_absolute_url }}">
+                          <img src="{{ course.course_img.url }}" alt="">
+                        </a>
+                      </div>
+                      <div class="courses_info">
+                        <span>{{ course.get_category_display }}</span>
+                        <h3><a href="{{ course.get_absolute_url }}">{{ course.title }}</a></h3>
+                        <div class="star_prise d-flex justify-content-between">
+                          <div class="star">
+                            <i class="flaticon-mark-as-favorite-star"></i>
+                            <span>(4.5)</span>
+                          </div>
+                          <div class="prise">
+                            {% if course.offer_price %}
+                            <span class="offer">{{ course.actual_price }}</span>
+                            <span class="active_prise">{{ course.offer_price }}</span>
+                            {% else %}
+                            <span class="active_prise">{{ course.actual_price }}</span>
+                            {% endif %}
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  {% if is_paginated %}
+                  <div class="col-xl-12">
+                    <div class="more_courses text-center">
+                      {% if page_obj.has_previous %}
+                      <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                      <a class="btn btn-outline-info mb-4" href="?page={{ page.obj.previous_page_number }}">Previous</a>
+                      {% endif %}
+                      {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                      <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                      {% endif %}
+                      {% endfor %}
+
+                      {% if page_obj.has_next %}
+                      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- popular_courses_end-->
+
+
+
+  </div>
+
+  </div>
+</section><!-- End Portfolio Section -->
+
+{% endblock %}

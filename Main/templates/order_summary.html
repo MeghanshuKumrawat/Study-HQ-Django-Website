@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+<section class="inner-page">
+    <div class="container">
+        <div class="section-title">
+            <h2>Your Cart</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+                consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat
+                sit in
+                iste officiis commodi quidem hic quas.</p>
+        </div>
+</section>
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Course title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order_course in object.course.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ order_course.course.title }}</td>
+                    <td>{{ order_course.course.category }}</td>
+                    <td>@mdo</td>
+                    <td>
+                        {% if order_course.course.offer_price %}
+                        {{ order_course.course.offer_price }}<span class="badge badge-info">Saving {{ order_course.get_total_saving }}</span>
+                        {% else %}
+                        {{ order_course.course.actual_price }}
+                        {% endif %}
+                        <a style="color: red;" class="float-right" href="{% url 'remove-from-cart' order_course.course.slug %}">Remove</i><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4"><b><h4>Your cart is Empty</h4></b></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><a class="btn btn-primary mr-2 float-right" href="/">Continue</a></td>
+                </tr>
+                {% endfor %}
+                {% if object.get_final_price %}
+                <tr>
+                    <td colspan="4"><b><h5>Total</h5></b></td>
+                    <td><b><h5>{{ object.get_final_price }}</h5></b></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><a class="btn btn-primary mr-2 float-right" href="{% url 'courses-list' %}">Continue</a></td>
+                    <td><a class="btn btn-success" href="{% url 'user-enroll' %}">Make a Payment</a></td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section><!-- End Contact Section -->
+
+{% endblock %}

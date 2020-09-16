@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+
+            <div class="col-lg-5 d-flex align-items-stretch">
+                <div class="info">
+                    <div class="address">
+                        <i class="icofont-google-map"></i>
+                        <h4>Location:</h4>
+                        <p>A108 Adam Street, New York, NY 535022</p>
+                    </div>
+
+                    <div class="email">
+                        <i class="icofont-envelope"></i>
+                        <h4>Email:</h4>
+                        <p>info@example.com</p>
+                    </div>
+
+                    <div class="phone">
+                        <i class="icofont-phone"></i>
+                        <h4>Call:</h4>
+                        <p>+1 5589 55488 55s</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch php-email-form">
+                <form method="post" role="form" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="form-row">
+                        <div class="media">
+                            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+                            <div class="media-body">
+                              <h2 class="account-heading">{{ user.username }}</h2>
+                              <p class="text-secondary">{{ user.email }}</p>
+                            </div>
+                          </div>
+                        <div class="form-group col-md-12">
+                            {{ form|crispy }}
+                            {{ img_form|crispy }}
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+                    <div class="text-center"><button type="submit">Update</button></div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section><!-- End Contact Section -->
+{% endblock %}

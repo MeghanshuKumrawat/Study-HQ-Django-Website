@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ======= Frequently Asked Questions Section ======= -->
+<section id="faq" class="faq section-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>{{ pk }}</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
+                consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat
+                sit
+                in iste officiis commodi quidem hic quas.</p>
+        </div>
+    </div>
+
+
+    <section id="team" class="team section-bg">
+        <div class="container" data-aos="fade-up">
+            <div class="row">
+                <div class="col-lg-8">
+                    {% for q in question %}
+                    <div class="member d-flex align-items-start mt-3" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="member-info">
+                            <a href="{% url 'faq-ans' q.id %}">
+                                <h4>{{ q.title }}</h4>
+                            </a>
+                            <span>{{ q.description|slice:"50"|safe }}</span>
+                            <p>{{ q.category }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <h1>There are no qustion from {{pk}} category!!!</h1>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar mt-3">
+                        <aside class="single_sidebar_widget newsletter_widget">
+                            <a href="{% url 'question-form' %}" class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                >Ask any Question</a>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if is_paginated %}
+    <div class="col-xl-12">
+        <div class="more_courses text-center">
+            {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page.obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

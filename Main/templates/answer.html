@@ -1,0 +1,133 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<!--================Blog Area =================-->
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 posts-list">
+                <div class="single-post">
+                    <div class="feature-img">
+                        <img class="img-fluid" src="" alt="">
+                    </div>
+                    <div class="blog_details">
+                        <h2>{{ object.title }}</h2>
+                        <ul class="blog-info-link mt-3 mb-4">
+                            <li><a href="#"><i class="fa fa-user"></i>{{ object.category }}</a></li>
+                            <li><a href="#"><i class="fa fa-comments"></i>{{ question.answers.count }} Comments</a></li>
+                        </ul>
+                        <p class="excert">
+                            {{ object.description }}
+                            MCSE boot camps have its supporters and its detractors. Some people do not understand why
+                            you
+                            should have to spend money on boot camp when you can get the MCSE study materials yourself
+                            at a
+                            fraction of the camp price. However, who has the willpower
+                        </p>
+                        <p>
+                            MCSE boot camps have its supporters and its detractors. Some people do not understand why
+                            you
+                            should have to spend money on boot camp when you can get the MCSE study materials yourself
+                            at a
+                            fraction of the camp price. However, who has the willpower to actually sit through a
+                            self-imposed MCSE training. who has the willpower to actually
+                        </p>
+                        <div class="quote-wrapper">
+                            <div class="quotes">
+                                {{ object.description_2 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-top">
+                    <div class="d-sm-flex justify-content-between text-center">
+                        <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span></p>
+                        <div class="col-sm-4 text-center my-2 my-sm-0">
+                            <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
+                        </div>
+                        <ul class="social-icons">
+                            <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="comments-area">
+                        <h4>{{ question.answers.count }} Answers</h4>
+                        {% if not question.answers.all %}
+                        <h2>No Answer Yet</h2>
+                        {% else %}
+                        {% for ans in question.answers.all %}
+                        <hr>
+                        <div class="comment-list">
+                            <div class="single-comment justify-content-between d-flex">
+                                <div class="user justify-content-between d-flex">
+                                    <div class="thumb">
+                                        <img src="{{ ans.name.profile.image.url }}" alt="">
+                                    </div>
+                                    <div class="desc">
+                                        <p class="comment">{{ ans.answer }}</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <h5>
+                                                    <a href="#">{{ ans.name }}</a>
+                                                </h5>
+                                                <p class="date">{{ ans.date }}</p>
+                                            </div>
+                                            <div class="reply-btn">
+                                                <a href="#" class="btn-reply text-uppercase">reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="comment-form">
+                        <u><h2>Leave Your Answer</h2></u>
+                        <form class="form-contact comment_form" id="commentForm" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                            {{ form|crispy }}
+                                            <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Answer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<!--================ Blog Area end =================-->
+
+{% if is_paginated %}
+<div class="col-xl-12">
+    <div class="more_courses text-center">
+        {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page.obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
